@@ -1,4 +1,4 @@
-const CACHE = 'golden-habits-cache-v2';
+const CACHE = 'golden-habits-v3';
 
 const FILES = [
   './',
@@ -19,7 +19,8 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(key => key !== CACHE).map(key => caches.delete(key))
+        keys.filter(key => key !== CACHE)
+          .map(key => caches.delete(key))
       )
     )
   );
@@ -29,8 +30,8 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method === 'GET') {
     event.respondWith(
-      caches.match(event.request).then(response =>
-        response || fetch(event.request)
+      caches.match(event.request).then(
+        response => response || fetch(event.request)
       )
     );
   }
